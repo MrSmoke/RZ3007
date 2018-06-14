@@ -10,20 +10,10 @@
         public static void AddWeb(this IServiceCollection services, IMvcBuilder mvcBuilder)
         {
             var currentAssembly = typeof(ServiceExtensions).GetTypeInfo().Assembly;
-
-
-            //Add current assembly to application parts
-            mvcBuilder.AddApplicationPart(currentAssembly);
-
             var fileProvider = new EmbeddedFileProvider(currentAssembly);
 
+            // In the event you're using this for static resources (not Views)
             services.AddSingleton<IFileProvider>(fileProvider);
-
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.FileProviders.Clear();
-                options.FileProviders.Add(fileProvider);
-            });
         }
     }
 }
